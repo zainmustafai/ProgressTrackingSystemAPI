@@ -2,9 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-
+import connnectToMongoDB from "./configs/database.config.js";
 dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -19,9 +19,11 @@ app.get("/", (req, res) => {
 
 const startServer = async () => {
   try {
-    console.log("Starting server...");
+    console.log("1.Connecting to MongoDB...");
+    await connnectToMongoDB(process.env.MONGO_URI);
+    console.log("2.Starting server...");
     app.listen(PORT, () => {
-      console.log(`Server running on port: ${PORT} http://localhost:${PORT}`);
+      console.log(`FINALLY:.Server running on port: ${PORT} http://localhost:${PORT}`);
     });
   } catch (err) {
     console.log("Error on server startup");
